@@ -4,8 +4,10 @@ const cors=require('cors')
 const jwt = require("jsonwebtoken");
 
 const user=require("./models/user")
+const chat=require("./models/chat")
 
 const userRoutes=require('./routes/user')
+const chatRoutes=require('./routes/chat')
 
 
 const app=express()
@@ -31,6 +33,10 @@ app.use((req,res,next)=>{
 })
 
 app.use("/",userRoutes)
+app.use('/',chatRoutes)
+
+user.hasMany(chat)
+chat.belongsTo(user)
 
 sequelize.sync()
     .then(() => {
