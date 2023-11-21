@@ -1,5 +1,5 @@
 const Chat=require("../models/chat")
-
+const user=require("../models/user")
 
 const postchat=async(req,res)=>{
     console.log(req.body)
@@ -22,20 +22,25 @@ const postchat=async(req,res)=>{
     }
 }
 
-const getChat=async(req,res)=>{
-    console.log(req.body)
-    try{
-        const message=await Chat.findAll({
-            attributes:["message","userId","id"],
-            include:[{model:User,atrributes:["name"]}]
-        })
-        res.status(201).json({data:message})
+const getChat = async (req, res) => {
+    console.log(req.body);
+    try {
+        if (!req.user) {
+            return res.status(401).json({ error: "Invalid User" });
+        }
 
-    }catch(err){
-        console.log(err)
-        res.status(500).json({err:err})
+        const message = await Chat.findAll({
+            attributes: ["message", "userId", "id"],
+            include: [{ model: user, attributes: ["name"] }],
+        });
+
+        console.log(message);
+        return res.status(200).json({ data: message });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 module.exports={
     postchat,getChat

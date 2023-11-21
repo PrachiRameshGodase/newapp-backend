@@ -4,6 +4,6 @@ const router=express.Router()
 const chatController=require("../controllers/chat")
 
 router.post("/chats",chatController.postchat)
-router.get("/getAllmessage",chatController.getChat)
+router.get("/chats",chatController.getChat)
 
 module.exports=router
