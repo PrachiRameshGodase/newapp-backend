@@ -1,7 +1,7 @@
 const Sequelize=require("sequelize")
 const sequelize=require("../util/database")
 
-const Groups=sequelize.define("groups",{
+const Group=sequelize.define("group",{
     id:{
         type:Sequelize.INTEGER,
         autoIncrement:true,
@@ -12,10 +12,12 @@ const Groups=sequelize.define("groups",{
         type:Sequelize.STRING,
         allowNull:false
     },
-    phonenumber:{
-        type:Sequelize.DOUBLE,
-        allowNull:false,
-        unique:true
+    phonenumber: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
     }
+    
+
+
 })
-module.exports=Groups
+module.exports=Group
