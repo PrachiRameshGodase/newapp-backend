@@ -24,4 +24,30 @@ const createGroup=async(req,res)=>{
     }
 }
 
-module.exports={createGroup}
+const getgroup=async(req,res)=>{
+    console.log("getgroup calledddddddddd")
+    try{
+if(!req.user){
+    return res.status(401).json({err:"Invalid User"})
+}
+
+const userId=req.user.id
+
+//retrieve group names where userid matches
+
+const groups=await Groups.findAll({
+    attributes:["groupname","id"],
+    where:{
+        userId:userId
+    }
+})
+console.log(groups)
+res.status(200).json({data:groups})
+
+    }catch(err){
+        console.log(err)
+        res.status(500).json({err:err})
+    }
+}
+
+module.exports={createGroup,getgroup}
