@@ -1,30 +1,44 @@
 const Chat=require("../models/chat")
 const user=require("../models/user")
-const http=require("http")
-// const socket=require("socket.io")
-// const server=http.createServer(app)
-// const io=new socket.Server(server,{cors:{origin:"*"}})
 
-const postchat=async(req,res)=>{
-    console.log(req.body)
-    try{
-        if(!req.user){
-            res.status(401).json({error:"Invalid User"})
-        }
 
-        const {message}=req.body;
-        const newChat=await Chat.create(
-            {
-                userId:req.user.id,
-                message:message
-            }
-        )
-        res.status(201).json({data:newChat})
-    }catch(err){
-        console.log(err)
-        res.status(500).json({err:"Error in post the chat"})
+const postchat = async (io, socket, data) => {
+    console.log(data);
+  
+    try {
+      // Assuming user and chat are defined elsewhere
+      const User = await user.findByPk(data.userId);
+  
+      if (!User) {
+        console.log("User not found");
+        return;
+      }
+  
+      const newMessage = await Chat.create({
+        message: data.message,
+        userId: data.userId,
+      });
+  
+      const messageWithUser = {
+        message: newMessage.message,
+        userId: newMessage.userId,
+        id: newMessage.id,
+        user: {
+          name: User.name,
+        },
+      };
+  
+      console.log("newMessage", messageWithUser);
+  
+      // Broadcast the new message with user to all connected clients
+      io.emit("newMessage", messageWithUser);
+    } catch (err) {
+      console.log(err);
     }
-}
+  };
+  
+  module.exports = postchat;
+  
 
 const getChat = async (req, res) => {
     console.log(req.body);

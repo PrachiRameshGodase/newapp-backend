@@ -7,4 +7,6 @@ router.get("/admingroups",groupController.getgroup)
 
 router.post("/addmember",groupController.addmember)
 
+router.get("/getallgroup",groupController.getAllGroups)
+
 module.exports=router

@@ -80,6 +80,8 @@ socket.on("sendMessage",async(data)=>{
   }
 })
 })
+
+
 app.use("/", userRoutes);
 app.use("/", chatRoutes);
 app.use("/", groupRoutes);

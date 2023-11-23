@@ -82,5 +82,32 @@ const addmember = async (req, res) => {
   }
 };
 
+const getAllGroups = async (req, res) => {
+  try {
+    const userGroups = await Usergroups.findAll({
+      include: [
+        
+        { model: Groups, attributes: ["groupname"] },
+        { model: User, attributes: ["name"] },
+      ],
+    });
 
-module.exports = { createGroup, addmember, getgroup };
+    console.log("userGroups from the getAllgroup", userGroups);
+
+    const groupData = userGroups.map((usergroup) => {
+      return {
+        userId: usergroup.userId,
+        groupId: usergroup.groupId,
+        userName: usergroup.dataValues.user.name,
+        groupName: usergroup.dataValues.group.groupname,
+      };
+    });
+
+    res.status(200).json({ data: groupData });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+module.exports = { createGroup, addmember, getgroup, getAllGroups };
