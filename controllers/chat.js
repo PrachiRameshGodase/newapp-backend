@@ -1,5 +1,9 @@
 const Chat=require("../models/chat")
 const user=require("../models/user")
+const http=require("http")
+// const socket=require("socket.io")
+// const server=http.createServer(app)
+// const io=new socket.Server(server,{cors:{origin:"*"}})
 
 const postchat=async(req,res)=>{
     console.log(req.body)
