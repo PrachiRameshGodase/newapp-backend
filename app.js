@@ -69,7 +69,7 @@ socket.on("sendMessage",async(data)=>{
       userId:newMessage.userId,
       id:newMessage.id,
       user:{
-        name:user.name
+        name:User.name
       }
     }
     console.log("newMessage",messageWithUser)
